@@ -5,25 +5,54 @@ import TaskList from './components/TaskList';
 import './index.css';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
-  const [filter, setFilter] = useState('all');
+  const [tasks, setTasks] = useState(() => {
+    try {
+      const stored = localStorage.getItem('tasks');
+      if (!stored) return [];
 
-  useEffect(() => {
-    const storedTasks = localStorage.getItem('tasks');
-    if (storedTasks) {
-      setTasks(JSON.parse(storedTasks));
+      const parsed = JSON.parse(stored);
+
+      // Ensure older tasks (without dates) get sensible defaults
+      if (!Array.isArray(parsed)) return [];
+
+      return parsed.map((task) => {
+        const hasCreatedAt = !!task.createdAt;
+        const hasCompletedAt = !!task.completedAt;
+
+        // Try to derive a creation date from id if it's numeric
+        let derivedCreatedAt = null;
+        if (!hasCreatedAt && typeof task.id === 'number') {
+          const derivedDate = new Date(task.id);
+          if (!Number.isNaN(derivedDate.getTime())) {
+            derivedCreatedAt = derivedDate.toISOString();
+          }
+        }
+
+        return {
+          ...task,
+          createdAt: hasCreatedAt ? task.createdAt : derivedCreatedAt,
+          completedAt: task.completed && !hasCompletedAt ? null : task.completedAt ?? null,
+        };
+      });
+    } catch (error) {
+      console.error('Failed to parse tasks from localStorage', error);
+      return [];
     }
-  }, []);
+  });
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
   const addTask = (title) => {
+    const now = new Date().toISOString();
     const newTask = {
       id: Date.now(),
       title,
       completed: false,
+      createdAt: now,
+      completedAt: null,
     };
     setTasks([...tasks, newTask]);
   };
@@ -31,7 +60,13 @@ function App() {
   const toggleTask = (id) => {
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
+        task.id === id
+          ? {
+              ...task,
+              completed: !task.completed,
+              completedAt: !task.completed ? new Date().toISOString() : null,
+            }
+          : task
       )
     );
   };
@@ -41,9 +76,10 @@ function App() {
   };
 
   const filteredTasks = tasks.filter((task) => {
-    if (filter === 'active') return !task.completed;
+    // Show only active tasks in "All" and "Active" views
+    if (filter === 'all' || filter === 'active') return !task.completed;
     if (filter === 'completed') return task.completed;
-    return true;
+    return !task.completed;
   });
 
   return (
