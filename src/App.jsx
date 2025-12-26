@@ -40,10 +40,20 @@ function App() {
     }
   });
   const [filter, setFilter] = useState('all');
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme ? savedTheme === 'dark' : true; // Default to dark
+  });
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
+
+  // Apply theme on mount and when it changes
+  useEffect(() => {
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    document.body.className = isDarkMode ? 'dark-theme' : 'light-theme';
+  }, [isDarkMode]);
 
   const addTask = (title) => {
     const now = new Date().toISOString();
@@ -83,8 +93,17 @@ function App() {
   });
 
   return (
-    <div className="app">
-      <h1>Task Manager</h1>
+    <div className={`app ${isDarkMode ? 'dark-theme' : 'light-theme'}`}>
+      <div className="header-container">
+        <h1>Task Manager</h1>
+        <button
+          className="theme-toggle"
+          onClick={() => setIsDarkMode(!isDarkMode)}
+          aria-label="Toggle theme"
+        >
+          {isDarkMode ? '☀️' : '🌙'}
+        </button>
+      </div>
       <TaskForm onAddTask={addTask} />
       <div className="filter-buttons">
         <button
