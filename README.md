@@ -1,16 +1,127 @@
-# React + Vite
+# Task Manager Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive task management application built with React and Vite. Features include task creation, completion tracking, filtering, and a beautiful dark/light theme toggle.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ✅ Create and manage tasks
+- 🎨 Dark/Light theme toggle
+- 🔍 Filter tasks (All, Active, Completed)
+- 💾 Local storage persistence
+- 📅 Task creation and completion timestamps
+- 🎯 Clean and modern UI
 
-## React Compiler
+## Technologies
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19** - UI library
+- **Vite** - Build tool and dev server
+- **CSS3** - Styling with modern gradients and transitions
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd "Task Manager Web App"
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+4. Open your browser and navigate to `http://localhost:5173`
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+## Docker Deployment
+
+### Using Docker Compose (Recommended)
+
+1. Build and start the container:
+```bash
+docker-compose up --build
+```
+
+2. Access the application at `http://localhost:8080`
+
+3. Stop the container:
+```bash
+docker-compose down
+```
+
+### Using Docker directly
+
+1. Build the Docker image:
+```bash
+docker build -t task-manager-app .
+```
+
+2. Run the container:
+```bash
+docker run -p 8080:80 task-manager-app
+```
+
+3. Access the application at `http://localhost:8080`
+
+### Docker Commands
+
+- **List running containers**: `docker ps`
+- **View logs**: `docker-compose logs` or `docker logs <container-id>`
+- **Stop container**: `docker-compose down` or `docker stop <container-id>`
+- **Remove container**: `docker rm <container-id>`
+- **Remove image**: `docker rmi task-manager-app`
+
+## Project Structure
+
+```
+Task Manager Web App/
+├── src/
+│   ├── components/
+│   │   ├── TaskForm.jsx
+│   │   ├── TaskItem.jsx
+│   │   └── TaskList.jsx
+│   ├── App.jsx
+│   ├── App.css
+│   ├── index.css
+│   └── main.jsx
+├── public/
+├── Dockerfile
+├── docker-compose.yml
+└── package.json
+```
+
+## Features in Detail
+
+### Theme Toggle
+Click the sun/moon icon in the header to switch between dark and light themes. Your preference is saved in localStorage.
+
+### Task Management
+- Add new tasks with the input field
+- Mark tasks as complete by checking the checkbox
+- Delete tasks with the delete button
+- Filter tasks by status (All, Active, Completed)
+
+### Data Persistence
+All tasks are automatically saved to browser localStorage and persist across page refreshes.
+
+## License
+
+This project is open source and available under the MIT License.
