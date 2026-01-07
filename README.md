@@ -122,6 +122,20 @@ Click the sun/moon icon in the header to switch between dark and light themes. Y
 ### Data Persistence
 All tasks are automatically saved to browser localStorage and persist across page refreshes.
 
+### Project Production Enviornment Depoloyment
+- The project has been deployed using back4app.com
+- The git and docker have been initialized in Assignment #2
+- To deploy the project using back4app :
+    * Go to the website and signup or login using your github.com account
+    * create a new app and name as the suiting the project
+    * click on the app
+    * a left sidebar appears, go to the 'Web Deployment' choice
+    * press '+ Deploy a Web app'
+    * select you git repo. project from you github.com account
+    * fill the options appearing
+    * at last, you will find the link of your project, click it and you will go to it
+  - The Website URl : https://taskmanager-n64yw0ow.b4a.run/
+
 ## License
 
 This project is open source and available under the MIT License.
